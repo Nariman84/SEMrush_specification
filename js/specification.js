@@ -15,8 +15,8 @@ $(document).ready(function() {
 		var i = e.data.i;
 		var $operation = $(this).next('.operation');
 
-		var $operationText = $operation.children('.text'),
-			$operationNum = $operation.children('.number'),
+		var $operationText = $operation.children('.operation__text'),
+			$operationNum = $operation.children('.operation__number'),
 			$inputValue = $(this).siblings('.input-value');
 
 		if ($(this).val() === 'Text field') {
