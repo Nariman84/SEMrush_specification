@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Specification</title>
+		<link rel="stylesheet" href="css/style_specification.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="wrap">
+				<div class="filter">
+					<select class="data-format">
+						<option class="text-field" value="Text field">Text field</option>
+						<option class="number-field" value="Number field">Number field</option>
+					</select>
+					<select class="operation">
+						<option class="operation__text" value="Containing">Containing</option>
+						<option class="operation__text" value="Exactly matching">Exactly matching</option>
+						<option class="operation__text" value="Begins with">Begins with</option>
+						<option class="operation__text" value="Ends with">Ends with</option>
+
+						<option class="operation__number invisible" value="Equal">Equal</option>
+						<option class="operation__number invisible" value="Greater than">Greater than</option>
+						<option class="operation__number invisible" value="Less than">Less than</option>
+					</select>
+					<input class="input-value">
+					<div class="cross-close">&#10006;</div>
+				</div>
+			</div>
+
+			<div class="add-condition">
+				<span class="add-condition__title">&#10010; Add condition</span>
+			</div>
+			<hr>
+			<div class="buttons">
+				<button class="btn_apply">Apply</button>
+				<button class="btn_reset">Clear filter</button>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="wrap-output">
+				<div class="output"></div>
+			</div>
+		</div>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/specification.js"></script>
+	</body>
+</html>

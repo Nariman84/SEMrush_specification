@@ -1,0 +1,88 @@
+* {
+	box-sizing: border-box;
+}
+
+.container {
+	width: 1020px;
+	margin: 0 auto;
+}
+.wrap {
+	margin-top: 50px;
+}
+
+.filter,
+.add-condition {
+	margin-bottom: 15px;
+}
+.data-format,
+.operation,
+.input-value {
+	width: 150px;
+	height: 25px;
+}
+
+.invisible {
+	display: none;
+}
+.add-condition__title {
+	display: inline-block;
+	color: #007bff;
+	cursor: pointer;
+}
+.cross-close {
+	display: none;
+	margin-left: 5px;
+	cursor: pointer;
+	color: #808080;
+	transition: transform .4s ease-in-out;
+}
+.cross-close:hover {
+	transform: rotate(360deg);
+}
+.active-cross {
+	display: inline-block;
+}
+.buttons {
+	margin-bottom: 20px;
+}
+.btn_apply,
+.btn_reset {
+	height: 25px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.btn_apply {
+	width: 60px;
+	color: #fff;
+	border: 1px solid #007bff;
+	background-color: #007bff;
+}
+.btn_apply:hover {
+	border-color: #0062cc;
+	background-color: #0069d9;
+}
+.btn_reset {
+	width: 90px;
+	color: #000;
+	border: 1px solid #a9a9a9;
+	background-color: #f8f9fa;
+}
+.btn_reset:hover {
+	background-color: #e2e6ea;
+
+}
+.output {
+	width: 500px;
+	height: 300px;
+	min-width: 500px;
+	max-width: 500px;
+	min-height: 300px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+input[type='number'] {
+	-moz-appearance: textfield;
+}
