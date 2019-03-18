@@ -5,16 +5,15 @@ $(document).ready(function() {
 		$btnAddCondition = $('.add-condition__title'),
 		$crossClose = $('.cross-close'),
 
-		$apply = $('.btn_apply'),
-		$reset = $('.btn_reset');
+		$apply = $('.buttons_btn-apply'),
+		$reset = $('.buttons_btn-reset');
 
-	$dataFormat.on('change', {i: 0}, changeFormat);
+	$dataFormat.on('change', changeFormat);
 
 	// Установка формата фильтра
 
 	function changeFormat(e) {
 		var target = e.target;
-		var i = e.data.i;
 		var $operation = $(this).next('.operation');
 
 		var $operationText = $operation.children('.operation__text'),
@@ -72,7 +71,7 @@ $(document).ready(function() {
 		setDefaultTypeInput($inputCloneVal);
 
 		$wrapFilter.append($clone);
-		$dataFormatClone.on('change', {i: idx}, changeFormat);
+		$dataFormatClone.on('change', changeFormat);
 	}
 
 	function checkFormatCloneOperation(operText, operNum) {
@@ -142,6 +141,7 @@ $(document).ready(function() {
 		};
 		var $outputFilter = $('.filter'),
 			$output = $('.output');
+
 		$outputFilter.each(function(i, el) {
 			var $dataFormatSel = $(el).children().eq(0).val(),
 				$operationSel = $(el).children().eq(1).val(),
