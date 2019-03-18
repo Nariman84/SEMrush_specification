@@ -10,6 +10,8 @@ $(document).ready(function() {
 
 	$dataFormat.on('change', {i: 0}, changeFormat);
 
+	// Установка формата фильтра
+
 	function changeFormat(e) {
 		var target = e.target;
 		var i = e.data.i;
@@ -44,6 +46,8 @@ $(document).ready(function() {
 		});
 	}
 
+	// Добавление новой строки с фильтром
+
 	$btnAddCondition.on('click', function() {
 		var lengthFilterLine = $('.filter').length;
 		if (lengthFilterLine < 10) {
@@ -52,24 +56,43 @@ $(document).ready(function() {
 		}
 	});
 
-	function addNewString(idx) {
-		var $clone = $filterCondition.clone();
-		$clone.children('.input-value').val('');
-		$clone.children('.input-value').attr('type', 'text');
-		$wrapFilter.append($clone);
-		$clone.children('.data-format').on('change', {i: idx}, changeFormat);
-	}
-
 	function showCrossClose() {
 		$crossClose.addClass('active-cross');
 	}
 
-	// Удаление строки
+	function addNewString(idx) {
+		var $clone = $filterCondition.clone(),
+			$dataFormatClone = $clone.children('.data-format'),
+			$operationClone = $clone.children('.operation'),
+			$operationCloneText = $operationClone.children('.operation__text'),
+			$operationCloneNum = $operationClone.children('.operation__number'),
+			$inputCloneVal = $clone.children('.input-value');
+
+		checkFormatCloneOperation($operationCloneText, $operationCloneNum);
+		setDefaultTypeInput($inputCloneVal);
+
+		$wrapFilter.append($clone);
+		$dataFormatClone.on('change', {i: idx}, changeFormat);
+	}
+
+	function checkFormatCloneOperation(operText, operNum) {
+		if (operText.hasClass('invisible')) {
+			operText.removeClass('invisible');
+			operNum.addClass('invisible');
+		}
+	}
+
+	function setDefaultTypeInput(input) {
+		input.val('');
+		input.attr('type', 'text');
+	}
+
+	// Удаление строки с фильтром
 
 	$wrapFilter.on('click', '.cross-close', function(e) {
 		var $target = $(e.target);
-		var $delStr = $target.parent();
-		deleteFilterLine($delStr);
+		var $delThisFilter = $target.parent();
+		deleteFilterLine($delThisFilter);
 	});
 
 	function deleteFilterLine(str) {
@@ -83,42 +106,46 @@ $(document).ready(function() {
 		}
 	}
 
+	//Сброс всего компонента в первоначальное состояние при клике Clear filter
+
 	$reset.on('click', function() {
-		deleteAddedLines();
-		resetFirstLine();
+		deleteAllAddedFilter();
+		resetFirstFilter();
 		hideCrossClose();
 		$('.output').text('');
 	});
 
-	function deleteAddedLines() {
+	function deleteAllAddedFilter() {
 		$('.filter').slice(1).remove();
 	}
 
-	function resetFirstLine() {
-		$dataFormat.val('Text field');
-		var $operationNum = $dataFormat.next('.operation').children('.operation__number'),
-			$operationText = $dataFormat.next('.operation').children('.operation__text');
-		$('.input-value').attr('type', 'text');
-		$('.input-value').val('');
-		$('.operation').val('Containing');
-		
-		showHideOperationNum($operationNum);
-		showHideOperationText($operationText);
+	function resetFirstFilter() {
+		if ($dataFormat.val() === 'Number field') {
+			$dataFormat.val('Text field');
+			var $operationNum = $dataFormat.next('.operation').children('.operation__number'),
+				$operationText = $dataFormat.next('.operation').children('.operation__text');
+			$('.input-value').attr('type', 'text');
+			$('.input-value').val('');
+			$('.operation').val('Containing');
+
+			showHideOperationNum($operationNum);
+			showHideOperationText($operationText);
+		}
 	}
 
-	//вывод текущего состояния фильтра
+	//вывод текущего состояния фильтра при клике на Apply
 
 	$apply.on('click', function() {
 		var obj = {
 			text: [],
 			number: []
 		};
-		var $outputFilter = $('.filter');
-		var $output = $('.output');
+		var $outputFilter = $('.filter'),
+			$output = $('.output');
 		$outputFilter.each(function(i, el) {
-			var $dataFormatSel = $(el).children().eq(0).val();
-			var $operationSel = $(el).children().eq(1).val();
-			var $inputValue = $(el).children().eq(2).val();
+			var $dataFormatSel = $(el).children().eq(0).val(),
+				$operationSel = $(el).children().eq(1).val(),
+				$inputValue = $(el).children().eq(2).val();
 
 			return outputFilterCondition($dataFormatSel, $operationSel, $inputValue, obj);
 		});
