@@ -12,12 +12,11 @@ $(document).ready(function() {
 
 	// Установка формата фильтра
 
-	function changeFormat(e) {
-		var target = e.target;
+	function changeFormat() {
 		var $operation = $(this).next('.operation');
 
-		var $operationText = $operation.children('.operation__text'),
-			$operationNum = $operation.children('.operation__number'),
+		var $operationText = $operation.find('.operation__text'),
+			$operationNum = $operation.find('.operation__number'),
 			$inputValue = $(this).siblings('.input-value');
 
 		if ($(this).val() === 'Text field') {
@@ -51,7 +50,7 @@ $(document).ready(function() {
 		var lengthFilterLine = $('.filter').length;
 		if (lengthFilterLine < 10) {
 			showCrossClose();
-			addNewString(lengthFilterLine);
+			addNewString();
 		}
 	});
 
@@ -59,13 +58,12 @@ $(document).ready(function() {
 		$crossClose.addClass('active-cross');
 	}
 
-	function addNewString(idx) {
+	function addNewString() {
 		var $clone = $filterCondition.clone(),
-			$dataFormatClone = $clone.children('.data-format'),
-			$operationClone = $clone.children('.operation'),
-			$operationCloneText = $operationClone.children('.operation__text'),
-			$operationCloneNum = $operationClone.children('.operation__number'),
-			$inputCloneVal = $clone.children('.input-value');
+			$dataFormatClone = $clone.find('.data-format'),
+			$operationCloneText = $clone.find('.operation__text'),
+			$operationCloneNum = $clone.find('.operation__number'),
+			$inputCloneVal = $clone.find('.input-value');
 
 		checkFormatCloneOperation($operationCloneText, $operationCloneNum);
 		setDefaultTypeInput($inputCloneVal);
@@ -108,10 +106,15 @@ $(document).ready(function() {
 	//Сброс всего компонента в первоначальное состояние при клике Clear filter
 
 	$reset.on('click', function() {
-		deleteAllAddedFilter();
 		resetFirstFilter();
 		hideCrossClose();
 		$('.output').text('');
+
+		if ($('.filter').length > 1) {
+			deleteAllAddedFilter();
+		}
+		
+
 	});
 
 	function deleteAllAddedFilter() {
@@ -121,11 +124,13 @@ $(document).ready(function() {
 	function resetFirstFilter() {
 		if ($dataFormat.val() === 'Number field') {
 			$dataFormat.val('Text field');
-			var $operationNum = $dataFormat.next('.operation').children('.operation__number'),
-				$operationText = $dataFormat.next('.operation').children('.operation__text');
-			$('.input-value').attr('type', 'text');
-			$('.input-value').val('');
-			$('.operation').val('Containing');
+			var $operation = $('.operation'),
+				$operationNum = $('.operation__number'),
+				$operationText = $('.operation__text'),
+				$inputValue = $('.input-value');
+			$inputValue.attr('type', 'text');
+			$inputValue.val('');
+			$operation.val('Containing');
 
 			showHideOperationNum($operationNum);
 			showHideOperationText($operationText);
@@ -143,9 +148,9 @@ $(document).ready(function() {
 			$output = $('.output');
 
 		$outputFilter.each(function(i, el) {
-			var $dataFormatSel = $(el).children().eq(0).val(),
-				$operationSel = $(el).children().eq(1).val(),
-				$inputValue = $(el).children().eq(2).val();
+			var $dataFormatSel = $(el).find('.data-format').val(),
+				$operationSel = $(el).find('.operation').val(),
+				$inputValue = $(el).find('.input-value').val();
 
 			return outputFilterCondition($dataFormatSel, $operationSel, $inputValue, obj);
 		});
