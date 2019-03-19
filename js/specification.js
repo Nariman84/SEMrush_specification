@@ -48,14 +48,18 @@ $(document).ready(function() {
 
 	$btnAddCondition.on('click', function() {
 		var lengthFilterLine = $('.filter').length;
+		var lengthCrossClose = $('.cross-close').length;
 		if (lengthFilterLine < 10) {
 			showCrossClose();
 			addNewString();
 		}
+		if (lengthCrossClose > 1) {
+			showCrossClose();
+		}
 	});
 
 	function showCrossClose() {
-		$crossClose.addClass('active-cross');
+		$('.cross-close').addClass('active-cross');
 	}
 
 	function addNewString() {
@@ -64,7 +68,6 @@ $(document).ready(function() {
 			$operationCloneText = $clone.find('.operation__text'),
 			$operationCloneNum = $clone.find('.operation__number'),
 			$inputCloneVal = $clone.find('.input-value');
-
 		checkFormatCloneOperation($operationCloneText, $operationCloneNum);
 		setDefaultTypeInput($inputCloneVal);
 
@@ -94,13 +97,15 @@ $(document).ready(function() {
 
 	function deleteFilterLine(str) {
 		$(str).remove();
-		hideCrossClose();
+		if ($('.cross-close').length < 2) {
+			hideCrossClose();
+		}
+		
 	}
 
 	function hideCrossClose() {
-		if ($('.cross-close').length < 2) {
-			$crossClose.removeClass('active-cross');
-		}
+		var $crossClose = $('.cross-close');
+		$crossClose.removeClass('active-cross');
 	}
 
 	//Сброс всего компонента в первоначальное состояние при клике Clear filter
@@ -113,8 +118,6 @@ $(document).ready(function() {
 		if ($('.filter').length > 1) {
 			deleteAllAddedFilter();
 		}
-		
-
 	});
 
 	function deleteAllAddedFilter() {
@@ -122,19 +125,20 @@ $(document).ready(function() {
 	}
 
 	function resetFirstFilter() {
+		var $operation = $('.operation'),
+			$operationNum = $('.operation__number'),
+			$operationText = $('.operation__text'),
+			$inputValue = $('.input-value'),
+			$dataFormat = $('.data-format');
+
 		if ($dataFormat.val() === 'Number field') {
 			$dataFormat.val('Text field');
-			var $operation = $('.operation'),
-				$operationNum = $('.operation__number'),
-				$operationText = $('.operation__text'),
-				$inputValue = $('.input-value');
 			$inputValue.attr('type', 'text');
-			$inputValue.val('');
-			$operation.val('Containing');
-
 			showHideOperationNum($operationNum);
 			showHideOperationText($operationText);
 		}
+		$inputValue.val('');
+		$operation.val('Containing');
 	}
 
 	//вывод текущего состояния фильтра при клике на Apply
